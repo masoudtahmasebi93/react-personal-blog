@@ -1,4 +1,4 @@
-import { Box, Button, TextField } from '@mui/material'
+import { Box, Button, Paper, TextField, Typography,Container } from '@mui/material'
 import { useRef } from 'react'
 import { useHistory } from 'react-router-dom'
 import { ContentCreationModel } from '../models/contentCreation.interface'
@@ -38,24 +38,29 @@ function NewPost() {
       })
   }
   return (
-    <Box>
-      <TextField
-        label="Title"
-        type="text"
-        name="title"
-        id="title"
-        required
-        inputRef={titleRef}
-      />
-      <Box>
-        <EditorWrapper {...temp} saveHandler={readData}></EditorWrapper>
-      </Box>
-      <br></br>
-      <br></br>
-      <br></br>
-      <br></br>
-      <Button onClick={SaveData}>Save</Button>
-    </Box>
+    <Paper variant="outlined" sx={{ my: { xs: 3, md: 6 }, p: { xs: 2, md: 3 } }}>
+      <Container>
+        <Typography component="h1" variant="h4" align="center">
+          New Post
+        </Typography>
+        <br />
+        <TextField
+          label="Title"
+          type="text"
+          name="title"
+          id="title"
+          required
+          inputRef={titleRef}
+        />
+        {' '}
+          <EditorWrapper {...temp} saveHandler={readData}></EditorWrapper>
+        <br></br>
+        <br></br>
+        <br></br>
+        <br></br>
+        <Button onClick={SaveData}>Save</Button>
+      </Container>
+    </Paper>
   )
 }
 

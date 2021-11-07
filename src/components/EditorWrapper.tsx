@@ -22,7 +22,7 @@ function EditorWrapper(props:ContentCreationModel) {
   }, [quill])
 
   return (
-    <div style={{ width: 500, height: 100,padding:10 }}>
+    <div style={{ width: 500, height: 100,padding:0 }}>
       <div ref={quillRef} />
     </div>
   )
