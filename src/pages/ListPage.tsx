@@ -1,13 +1,16 @@
 import {
-  Box,
   Button,
   Card,
   CardActions,
   CardContent,
+  Grid,
   Typography,
 } from "@mui/material";
 import { onValue } from "firebase/database";
+import React from "react";
 import { useEffect, useState } from "react";
+import MainFeaturedPost from "../components/MainFeaturedPost";
+import FeaturedPost from "../components/FeaturedPost";
 import { ContentInterface } from "../models/content.interface";
 import { deleteBlogPost, getPosts } from "../service/firebase";
 import "./ListPage.css";
@@ -45,10 +48,41 @@ function ListPage() {
   if (isLoading) {
     return <div className="">...Loading...</div>;
   }
-
+  const mainFeaturedPost = {
+    title: "Title of a longer featured blog post",
+    description:
+      "Multiple lines of text that form the lede, informing new readers quickly and efficiently about what's most interesting in this post's contents.",
+    image: "https://source.unsplash.com/random",
+    imageText: "main image description",
+    linkText: "Continue reading…",
+  };
+  const featuredPosts = [
+    {
+      title: "Featured post",
+      date: "Nov 12",
+      description:
+        "This is a wider card with supporting text below as a natural lead-in to additional content.",
+      image: "https://source.unsplash.com/random",
+      imageLabel: "Image Text",
+    },
+    {
+      title: "Post title",
+      date: "Nov 11",
+      description:
+        "This is a wider card with supporting text below as a natural lead-in to additional content.",
+      image: "https://source.unsplash.com/random",
+      imageLabel: "Image Text",
+    },
+  ];
   return (
-    <Box sx={{ minWidth: 275 }}>
-      <h1>All Blog Posts</h1>
+    <React.Fragment>
+      <MainFeaturedPost post={mainFeaturedPost} />
+      <Grid container spacing={4}>
+        {featuredPosts.map((post) => (
+          <FeaturedPost key={post.title} post={post} />
+        ))}
+      </Grid>
+
       {/* <button onClick={logout}>logout</button> */}
       <ul>
         {dataSet.map((lp) => {
@@ -91,7 +125,7 @@ function ListPage() {
           );
         })}
       </ul>
-    </Box>
+    </React.Fragment>
   );
 }
 

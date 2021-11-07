@@ -3,7 +3,7 @@ import { useHistory } from "react-router-dom";
 import "./NewUser.css";
 import { createUser, signIn } from "../service/firebase";
 import AuthContext from "../store/authentication-context";
-import { Box, Button, TextField } from "@mui/material";
+import { Button, TextField } from "@mui/material";
 
 function NewUser() {
   // const NameRef = useRef<HTMLInputElement>(null)
