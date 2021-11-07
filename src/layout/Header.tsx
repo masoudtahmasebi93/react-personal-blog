@@ -5,8 +5,20 @@ import { Link } from 'react-router-dom'
 import { logoutUser } from '../service/firebase'
 import './Header.css'
 import AuthContext from '../store/authentication-context'
+import React from 'react'
 
-function Header() {
+
+interface HeaderProps {
+  sections: ReadonlyArray<{
+    title: string;
+    url: string;
+  }>;
+  title: string;
+}
+
+function Header(props: HeaderProps) {
+  const { sections, title } = props;
+
   const authContext = useContext(AuthContext)
 
   useEffect(() => {
@@ -59,7 +71,7 @@ function Header() {
             {authContext.isLogged ? (
               <div className="">
                 <Link to="/new">New Post</Link>
-                <Button onClick={Logout}>Logout</Button>
+                <a onClick={Logout}>Logout</a>
               </div>
             ) : (
               <Link to="/login">Login/Registration</Link>
@@ -68,6 +80,45 @@ function Header() {
         </div>
       </Toolbar>
     </AppBar>
+    // <React.Fragment>
+    //   <Toolbar sx={{ borderBottom: 1, borderColor: 'divider' }}>
+    //     <Button size="small">Subscribe</Button>
+    //     <Typography
+    //       component="h2"
+    //       variant="h5"
+    //       color="inherit"
+    //       align="center"
+    //       noWrap
+    //       sx={{ flex: 1 }}
+    //     >
+    //       {title}
+    //     </Typography>
+    //     <IconButton>
+    //       <SearchIcon />
+    //     </IconButton>
+    //     <Button variant="outlined" size="small">
+    //       Sign up
+    //     </Button>
+    //   </Toolbar>
+    //   <Toolbar
+    //     component="nav"
+    //     variant="dense"
+    //     sx={{ justifyContent: 'space-between', overflowX: 'auto' }}
+    //   >
+    //     {sections.map((section) => (
+    //       <Link
+    //         color="inherit"
+    //         noWrap
+    //         key={section.title}
+    //         variant="body2"
+    //         href={section.url}
+    //         sx={{ p: 1, flexShrink: 0 }}
+    //       >
+    //         {section.title}
+    //       </Link>
+    //     ))}
+    //   </Toolbar>
+    // </React.Fragment>
   )
 }
 

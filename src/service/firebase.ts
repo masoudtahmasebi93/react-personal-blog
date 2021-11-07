@@ -3,7 +3,7 @@ import { initializeApp } from "firebase/app";
 // import { getAnalytics } from "firebase/analytics";
 import { getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword, signOut, onAuthStateChanged } from "firebase/auth";
 // import { getFirestore, collection, getDocs } from 'firebase/firestore/lite';
-import { getDatabase, ref, set } from "firebase/database";
+import { getDatabase, ref, remove, set } from "firebase/database";
 // TODO: Add SDKs for Firebase products that you want to use
 // https://firebase.google.com/docs/web/setup#available-libraries
 
@@ -49,6 +49,12 @@ export function writeBlogPost(userId: any, name: any, email: any, imageUrl: any)
         email: email,
         profile_picture: imageUrl
     });
+}
+
+export function deleteBlogPost(blogId: string) {
+    const db = getDatabase();
+    console.log(blogId)
+    return remove(ref(db, '/posts/' + blogId));
 }
 
 export function createUser(email: string, password: string) {

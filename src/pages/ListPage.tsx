@@ -5,35 +5,45 @@ import {
   CardActions,
   CardContent,
   Typography,
-} from '@mui/material'
-import { onValue } from 'firebase/database'
-import { useEffect, useState } from 'react'
-import { ContentInterface } from '../models/content.interface'
-import { getPosts } from '../service/firebase'
-import './ListPage.css'
+} from "@mui/material";
+import { onValue } from "firebase/database";
+import { useEffect, useState } from "react";
+import { ContentInterface } from "../models/content.interface";
+import { deleteBlogPost, getPosts } from "../service/firebase";
+import "./ListPage.css";
 
 function ListPage() {
-  const [isLoading, setIsLoading] = useState(true)
-  let ListPosts: ContentInterface[] = []
-  const [dataSet, setData] = useState(ListPosts)
-  useEffect(getData, [])
+  const [isLoading, setIsLoading] = useState(true);
+  let ListPosts: ContentInterface[] = [];
+  const [dataSet, setData] = useState(ListPosts);
+  useEffect(getData, []);
   function getData() {
-    ListPosts = []
-    let res: any = getPosts()
+    ListPosts = [];
+    let res: any = getPosts();
     onValue(res, (snapshot) => {
-      const data = snapshot.val()
+      const data = snapshot.val();
       for (const key in data) {
         if (Object.prototype.hasOwnProperty.call(data, key)) {
-          ListPosts.push({ id: key, ...data[key] })
+          ListPosts.push({ id: key, ...data[key] });
         }
       }
-      setIsLoading(false)
-      setData(ListPosts)
-    })
+      setIsLoading(false);
+      setData(ListPosts);
+    });
+  }
+
+  function deletePost(id: string) {
+    deleteBlogPost(id)
+      .then((res) => {
+        console.log("res", res);
+      })
+      .catch((err) => {
+        console.error("err", err);
+      });
   }
 
   if (isLoading) {
-    return <div className="">...Loading...</div>
+    return <div className="">...Loading...</div>;
   }
 
   return (
@@ -43,9 +53,9 @@ function ListPage() {
       <ul>
         {dataSet.map((lp) => {
           return (
-            <>
+            <div key={lp.id}>
               <br></br>
-              <Card key={lp.id}>
+              <Card>
                 {/* <h3>{lp.title}</h3>
               <time>{lp.creationTime}</time>
               <p dangerouslySetInnerHTML={{ __html: lp.description }}></p>
@@ -71,15 +81,18 @@ function ListPage() {
                 </CardContent>
                 <CardActions>
                   <Button size="small">Read Complete</Button>
+                  <Button size="small" onClick={() => deletePost(lp.id)}>
+                    Delete
+                  </Button>
                 </CardActions>
               </Card>
               <br></br>
-            </>
-          )
+            </div>
+          );
         })}
       </ul>
     </Box>
-  )
+  );
 }
 
-export default ListPage
+export default ListPage;
